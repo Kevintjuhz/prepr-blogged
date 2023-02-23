@@ -4,7 +4,7 @@ import {useState} from 'react';
 function ArticleBookmark() {
     const [disabled, setDisabled] = useState(false)
     const handleClick = () => {
-        prepr('event', 'Subscribe', { value: 2 });
+        prepr('event', 'Subscribe', { 'value': 2 });
         setDisabled(true)
     }
 

@@ -10,15 +10,22 @@ export default function App({ Component, pageProps }) {
     const router = useRouter();
 
     useEffect(() => {
-        router.events.on("routeChangeComplete", () => {
-            prepr('event', 'View');
-        });
+        const handleRouteChange = (url) => {
+            const articleRoute = url.toString().includes("/news/articles/")
+
+            if (articleRoute) {
+                prepr('event', 'View');
+            }
+        }
+
+        router.events.on('routeChangeComplete', handleRouteChange)
+
+        // If the component is unmounted, unsubscribe
+        // from the event with the `off` method:
         return () => {
-            router.events.off("routeChangeComplete", () => {
-                // prepr('event', 'View');
-            });
-        };
-    }, [router.events]);
+            router.events.off('routeChangeComplete', handleRouteChange)
+        }
+    }, [])
 
 
     return (
