@@ -1,11 +1,11 @@
 import {gql} from '@apollo/client';
 
 export const getArticles = gql`
-{
+query Articles {
     Articles {
         items {
             _id
-            title
+            title  
             featured_image {
                 url(width: 1920)
             }

@@ -37,6 +37,9 @@ export const getHomePage = gql`{
                 _created_on
                 _slug
             }
+        ... on HTML {
+                editor
+        }
         ... on CTAMain { 
                 _id
                 header

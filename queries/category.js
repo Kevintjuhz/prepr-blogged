@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 export const getArticlesByCategory = gql`
-query Articles($where: ArticleWhereInput, $slug: String, $limit: Int!) {
+query Articles($slug: String) {
     Category(slug: $slug) {
         image {
           url
@@ -9,40 +9,4 @@ query Articles($where: ArticleWhereInput, $slug: String, $limit: Int!) {
         }
         name
       }
-
-    Articles(where: $where) {
-        items {
-            _id
-            title
-            featured_image {
-                url
-                name
-            }
-            category {
-                name
-                _slug
-                image {
-                    url
-                    name
-                }
-            }
-            author {
-                name
-            }
-            _created_on
-            _slug
-        }
-    }
-    
-    Popular_Articles(limit: $limit) {
-        items {
-            title
-            _slug
-            featured_image {
-                url
-                name
-            }
-            _publish_on
-        }
-    }
 }`

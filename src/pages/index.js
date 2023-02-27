@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import {useContext, useEffect} from 'react';
 import CookiesContext from 'react-cookie/lib/CookiesContext';
+import parse from 'html-react-parser';
 function HomePage({data}) {
     const cookieContext = useContext(CookiesContext)
 
@@ -53,13 +54,16 @@ function HomePage({data}) {
                 </div>
             )
         }
+
+        if (content.__typename === "HTML") {
+            return parse(content.editor)
+        }
     })
 
     return (
         <>
             <Head>
                 <meta property="prepr:id" content={data._id}/>
-                {/*{cookieContext.get('__prepr_uid') && <meta property="prepr:customer-id" content={cookieContext.get('__prepr_uid')} />}*/}
             </Head>
             {pageContent}
         </>

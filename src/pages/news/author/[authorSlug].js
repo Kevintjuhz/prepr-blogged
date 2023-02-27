@@ -3,6 +3,7 @@ import {getAuthor} from '@/queries/author';
 import AuthorHeader from '@/components/author/author-header';
 import ArticleSidebar from '@/components/article/article-sidebar';
 import ArticleCard from '@/components/article-card';
+import {getArticles, getSimilarArticles} from '@/queries/articles';
 function AuthorDetailPage({author, articles, popular_articles}) {
     const categories = articles.map((article) => article.category[0])
 
@@ -21,7 +22,7 @@ function AuthorDetailPage({author, articles, popular_articles}) {
                 </div>
 
                 {/* Sidebar */}
-                <ArticleSidebar className="col-span-3" category={categories} popularArticles={popular_articles}/>
+                <ArticleSidebar className="col-span-3" category={categories}/>
             </div>
         </>
     )
@@ -44,7 +45,12 @@ export async function getServerSideProps({query}) {
             slug: authorSlug
         }
     })
+
+    const articles = await client.query({
+        query: getArticles,
+    })
+
     return {
-        props: { articles: data.Articles.items, author: data.Author, popular_articles: data.Popular_Articles.items }
+        props: { articles: articles.data.Articles.items, author: data.Author }
     }
 }

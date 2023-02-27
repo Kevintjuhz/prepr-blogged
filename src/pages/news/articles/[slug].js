@@ -28,7 +28,6 @@ function ArticleDetailPage({article, popular_articles}) {
         <>
             <Head>
                 <meta property="prepr:id" content={article._id}/>
-                {cookieContext.get('__prepr_uid') && <meta property="prepr:customer-id" content={cookieContext.get('__prepr_uid')} />}
             </Head>
             <ArticleHeader article={article} />
             <div className="grid grid-cols-9 gap-10 py-24 px-12 container mx-auto">

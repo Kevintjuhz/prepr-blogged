@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function ArticleCard({article}) {
     const options = {year: "numeric", month: "long", day: "numeric"}
@@ -15,7 +16,13 @@ function ArticleCard({article}) {
             <div
                 className="overflow-hidden col-span-5 bg-cover bg-center rounded-xl w-full h-full self-start"
                 style={{backgroundImage: `url("${article.featured_image[0].url}")`}}
-            ></div>
+            >
+                <Image
+                    src={article.featured_image[0].url}
+                    width={1000}
+                    height={1000}
+                />
+            </div>
             <div className="col-span-7 border rounded-xl border-gray-200 px-10 py-10 group-hover:shadow-xl">
                 <p className="text-red-700 text-sm mb-4">{article.category[0].name}</p>
                 <h3 className="text-2xl font-bold mb-8">{article.title}</h3>
