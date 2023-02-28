@@ -63,6 +63,6 @@ export async function getServerSideProps({req, res, query}) {
     })
 
     return {
-        props: { article: data.Article, popular_articles: similar.data.Similar_Articles.items, cookie }
+        props: { article: data.Article, popular_articles: similar.data.Similar_Articles.items }
     }
 }
