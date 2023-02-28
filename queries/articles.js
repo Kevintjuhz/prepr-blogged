@@ -116,3 +116,58 @@ export const getBookmarkedArticles = gql`
         }
     }
 }`
+
+export const getArticlesByCategory = gql`query Articles($where: ArticleWhereInput) {
+    Articles(where: $where) {
+        items {
+            _slug
+            _id
+            title
+            featured_image {
+                url
+                name
+            }
+            _created_on
+            content {
+            ... on Text {
+                    _id
+                    _type
+                    html
+                    body
+                    text
+                    format
+                }
+            ... on Assets {
+                    _type
+                    items {
+                        url(width: 1920)
+                        name
+                    }
+                }
+            ... on BlockQuote {
+                    _id
+                    quote
+                    person
+                }
+            }
+            author {
+                _slug
+                bio
+                job
+                name
+                image {
+                    url(width: 1920)
+                    name
+                }
+            }
+            category {
+                name
+                image {
+                    url(width: 1920)
+                    name
+                }
+                _slug
+            }
+        }
+    }
+}`

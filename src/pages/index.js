@@ -64,6 +64,7 @@ function HomePage({data}) {
         <>
             <Head>
                 <meta property="prepr:id" content={data._id}/>
+                <meta property="prepr:customer-id" content={cookieContext.get('__prepr_uid')}/>
             </Head>
             {pageContent}
         </>

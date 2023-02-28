@@ -65,6 +65,11 @@ export async function getServerSideProps({req, query}) {
         variables: {
             similarId: data.Article._id,
             limit: 3
+        },
+        context: {
+            headers: {
+                "Prepr-Customer-ID": cookieData.__prepr_uid
+            }
         }
     })
 

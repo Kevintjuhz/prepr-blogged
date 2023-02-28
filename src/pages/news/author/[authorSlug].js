@@ -4,6 +4,7 @@ import AuthorHeader from '@/components/author/author-header';
 import ArticleSidebar from '@/components/article/article-sidebar';
 import ArticleCard from '@/components/article-card';
 import {getArticles, getSimilarArticles} from '@/queries/articles';
+import {parseCookies} from "@/lib/index";
 function AuthorDetailPage({author, articles, popular_articles}) {
     const categories = articles.map((article) => article.category[0])
 
@@ -30,8 +31,10 @@ function AuthorDetailPage({author, articles, popular_articles}) {
 
 export default AuthorDetailPage;
 
-export async function getServerSideProps({query}) {
+export async function getServerSideProps({query, req}) {
     const {authorSlug} = query
+
+    const cookieData = parseCookies(req);
 
     const {data} = await client.query({
         query: getAuthor,
@@ -43,11 +46,21 @@ export async function getServerSideProps({query}) {
             },
             limit: 3,
             slug: authorSlug
+        },
+        context: {
+            headers: {
+                "Prepr-Customer-ID": cookieData.__prepr_uid
+            }
         }
     })
 
     const articles = await client.query({
         query: getArticles,
+        context: {
+            headers: {
+                "Prepr-Customer-ID": cookieData.__prepr_uid
+            }
+        }
     })
 
     return {
