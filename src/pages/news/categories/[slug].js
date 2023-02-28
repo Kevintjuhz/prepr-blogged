@@ -3,10 +3,8 @@ import ArticleSidebar from '@/components/article/article-sidebar';
 import client from '@/lib/apollo-client';
 import {getCategory} from '@/queries/category';
 import {getArticlesByCategory} from "@/queries/articles"
-import {parseCookies} from "@/lib/index";
-import {getHomePage} from "@/queries/home";
 
-function CategoryDetailPage({category, articles, popular_articles}) {
+function CategoryDetailPage({category, articles}) {
     return (
         <>
             <div className="grid grid-cols-9 gap-10 py-24 px-12 container mx-auto">
@@ -31,8 +29,6 @@ export default CategoryDetailPage;
 export async function getServerSideProps({query, req}) {
     const {slug} = query
 
-    let cookieData = parseCookies(req);
-
     const {data} = await client.query({
         query: getCategory,
         variables: {
@@ -51,7 +47,6 @@ export async function getServerSideProps({query, req}) {
         },
         context: {
             headers: {
-                "Prepr-Customer-ID": cookieData.__prepr_uid
             }
         }
     })

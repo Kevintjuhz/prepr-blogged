@@ -2,8 +2,6 @@ import FeaturedPostsHeader from '@/components/featured-posts-header';
 import client from '@/lib/apollo-client';
 import {getArticles} from '@/queries/articles';
 import ArticleCard from '@/components/article-card';
-import {parseCookies} from '@/lib/index';
-import Image from 'next/image';
 function NewsPage({articles}) {
     return (
         <>
@@ -21,13 +19,10 @@ function NewsPage({articles}) {
 export default NewsPage
 
 export async function getServerSideProps({req}) {
-    let cookieData = parseCookies(req);
-
     const {data} = await client.query({
         query: getArticles,
         context: {
             headers: {
-                "Prepr-Customer-ID": cookieData.__prepr_uid
             }
         }
     })

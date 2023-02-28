@@ -1,16 +1,10 @@
-import {parseCookies} from '@/lib/index';
 import {getHomePage} from '@/queries/home';
 import client from '@/lib/apollo-client';
 import ArticleCard from '@/components/article-card';
 import Link from 'next/link';
-import Head from 'next/head';
-import {useContext, useEffect} from 'react';
-import CookiesContext from 'react-cookie/lib/CookiesContext';
 import parse from 'html-react-parser';
-function HomePage({data}) {
-    const cookieContext = useContext(CookiesContext)
-
-    const pageContent = data.content.map((content) => {
+function HomePage({page}) {
+    const pageContent = page.content.map((content) => {
         if (content.__typename === "Header") {
             return (
                 <>
@@ -62,10 +56,6 @@ function HomePage({data}) {
 
     return (
         <>
-            <Head>
-                <meta property="prepr:id" content={data._id}/>
-                <meta property="prepr:customer-id" content={cookieContext.get('__prepr_uid')}/>
-            </Head>
             {pageContent}
         </>
     )
@@ -73,23 +63,20 @@ function HomePage({data}) {
 
 export default HomePage
 
-HomePage.getInitialProps = async ({req, res}) => {
-    // Cookie
-    let cookieData = parseCookies(req);
-
+export async function getServerSideProps({req, res}) {
     // Data
     const {data} = await client.query({
         query: getHomePage,
         context: {
             headers: {
-                "Prepr-Customer-ID": cookieData.__prepr_uid
             }
         }
     })
 
     return {
-        data: data.Page,
-        cookieData
+        props: {
+            page: data.Page,
+        },
     }
 }
 

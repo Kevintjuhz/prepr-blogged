@@ -5,12 +5,8 @@ import ArticleSidebar from '@/components/article/article-sidebar';
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa';
 import parse from "html-react-parser"
 import Head from 'next/head';
-import {useContext} from 'react';
-import CookiesContext from 'react-cookie/lib/CookiesContext';
-import {parseCookies} from '@/lib/index';
 
-function ArticleDetailPage({article, popular_articles}) {
-    const cookieContext = useContext(CookiesContext)
+function ArticleDetailPage({article, popular_articles, cookie}) {
 
     const postContent = article.content.map((content) => {
         if (content.__typename === "Text") {
@@ -26,9 +22,6 @@ function ArticleDetailPage({article, popular_articles}) {
 
     return (
         <>
-            <Head>
-                <meta property="prepr:id" content={article._id}/>
-            </Head>
             <ArticleHeader article={article} />
             <div className="grid grid-cols-9 gap-10 py-24 px-12 container mx-auto">
                 {/* Main content */}
@@ -45,17 +38,14 @@ function ArticleDetailPage({article, popular_articles}) {
 
 export default ArticleDetailPage;
 
-export async function getServerSideProps({req, query}) {
+export async function getServerSideProps({req, res, query}) {
     const {slug} = query
-
-    let cookieData = parseCookies(req);
 
     const {data} = await client.query({
         query: getArticle,
         variables: { slug },
         context: {
             headers: {
-                "Prepr-Customer-ID": cookieData.__prepr_uid
             }
         }
     })
@@ -68,12 +58,11 @@ export async function getServerSideProps({req, query}) {
         },
         context: {
             headers: {
-                "Prepr-Customer-ID": cookieData.__prepr_uid
             }
         }
     })
 
     return {
-        props: { article: data.Article, popular_articles: similar.data.Similar_Articles.items }
+        props: { article: data.Article, popular_articles: similar.data.Similar_Articles.items, cookie }
     }
 }
