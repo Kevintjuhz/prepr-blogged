@@ -5,6 +5,7 @@ import ArticleSidebar from '@/components/article/article-sidebar';
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa';
 import parse from "html-react-parser"
 import Head from 'next/head';
+import {getCookie} from "cookies-next";
 
 function ArticleDetailPage({article, popular_articles}) {
 
@@ -43,12 +44,14 @@ export default ArticleDetailPage;
 
 export async function getServerSideProps({req, res, query}) {
     const {slug} = query
+    const customerCookie = getCookie('__prepr_uid', { req, res});
 
     const {data} = await client.query({
         query: getArticle,
         variables: { slug },
         context: {
             headers: {
+                "Prepr-Customer-Id": customerCookie
             }
         }
     })
