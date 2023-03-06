@@ -10,7 +10,10 @@ function NewsPage({articles}) {
             <div className="flex flex-col gap-4 mt-20 p-24 container mx-auto ">
                 <h2 className="font-bold text-3xl mb-4">Articles</h2>
                 {articles.map((article) => (
-                    <ArticleCard key={article._slug} article={article} />
+                    <>
+                        <a href={`/news/articles/${article._slug}`} data-prepr-abtest={article._id}>Test</a>
+                        <ArticleCard key={article._slug} article={article} />
+                    </>
                 ))}
             </div>
         </>
@@ -22,7 +25,7 @@ export default NewsPage
 export async function getServerSideProps({req, res}) {
 
     const customerCookie = getCookie('__prepr_uid', { req, res});
-    
+
     const {data} = await client.query({
         query: getArticles,
         context: {

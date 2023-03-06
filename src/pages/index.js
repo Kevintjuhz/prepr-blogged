@@ -74,11 +74,13 @@ export async function getServerSideProps({req, res}) {
     // Data
     const {data} = await client.query({
         query: getHomePage,
+        fetchPolicy: "no-cache",
         context: {
+            fetchPolicy: "no-cache",
             headers: {
                 "Prepr-Customer-Id": customerCookie
             }
-        }
+        },
     })
 
     return {
