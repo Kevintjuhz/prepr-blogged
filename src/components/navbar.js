@@ -33,12 +33,6 @@ function Nav() {
                 >
                     News
                 </Navbar.Link>
-                <Navbar.Link
-                    active={router.pathname === "/news/articles/bookmarked" && true}
-                    href="/news/articles/bookmarked"
-                >
-                    Bookmarked
-                </Navbar.Link>
             </Navbar.Collapse>
         </Navbar>
     )
