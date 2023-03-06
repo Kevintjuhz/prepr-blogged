@@ -6,7 +6,7 @@ import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa';
 import parse from "html-react-parser"
 import Head from 'next/head';
 
-function ArticleDetailPage({article, popular_articles, cookie}) {
+function ArticleDetailPage({article, popular_articles}) {
 
     const postContent = article.content.map((content) => {
         if (content.__typename === "Text") {
@@ -22,6 +22,9 @@ function ArticleDetailPage({article, popular_articles, cookie}) {
 
     return (
         <>
+            <Head>
+                <meta property="prepr:id" content={article._id}/>
+            </Head>
             <ArticleHeader article={article} />
             <div className="grid grid-cols-9 gap-10 py-24 px-12 container mx-auto">
                 {/* Main content */}
