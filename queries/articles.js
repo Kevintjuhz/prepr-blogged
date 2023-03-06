@@ -18,6 +18,11 @@ query Articles {
             }
             category {
                 name
+                _slug
+                image {
+                    url(width: 1920)
+                    name
+                }
             }
             _created_on
             _slug

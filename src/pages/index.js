@@ -3,6 +3,7 @@ import client from '@/lib/apollo-client';
 import ArticleCard from '@/components/article-card';
 import Link from 'next/link';
 import parse from 'html-react-parser';
+import Head from "next/head";
 function HomePage({page}) {
     const pageContent = page.content.map((content) => {
         if (content.__typename === "Header") {
@@ -56,6 +57,9 @@ function HomePage({page}) {
 
     return (
         <>
+            <Head>
+                <meta property="prepr:id" content={page._id}/>
+            </Head>
             {pageContent}
         </>
     )
@@ -63,7 +67,7 @@ function HomePage({page}) {
 
 export default HomePage
 
-export async function getServerSideProps({req, res}) {
+export async function getServerSideProps() {
     // Data
     const {data} = await client.query({
         query: getHomePage,
