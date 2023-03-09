@@ -40,5 +40,6 @@ export default function App({ Component, pageProps }) {
 }
 
 App.getServerSideProps = () => [
+    // Chameleon user guides
     chmln.init('SliKIsOn78Fnm9uLXgcFyI5oJNZYwY5dPgAX2LTvAAvCgl-1PAiet-EgsLlncdOAqRVOPh', { fastUrl: 'https://fast.chameleon.io/' })
 ]
