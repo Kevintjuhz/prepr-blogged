@@ -15,7 +15,11 @@ export default function Document() {
             />
             <Script id="chameleon" strategy="afterInteractive" dangerouslySetInnerHTML={
                 {
-                    __html: "!function(d,w){var t=\"SliKIsOn78Fnm9uLXgcFyI5oJNZYwY5dPgAX2LTvAAvCgl-1PAiet-EgsLlncdOAqRVOPh\",c=\"chmln\",i=d.createElement(\"script\");if(w[c]||(w[c]={}),!w[c].root){w[c].accountToken=t,w[c].location=w.location.href.toString(),w[c].now=new Date,w[c].fastUrl='https://fast.chameleon.io/';var m=\"identify alias track clear set show on off custom help _data\".split(\" \");for(var s=0;s<m.length;s++){!function(){var t=w[c][m[s]+\"_a\"]=[];w[c][m[s]]=function(){t.push(arguments);};}();}i.src=w[c].fastUrl+\"messo/\"+t+\"/messo.min.js\",i.async=!0,d.head.appendChild(i);}}(document,window);"
+                    __html: `
+                    !function(d,w){var t=\"SliKIsOn78Fnm9uLXgcFyI5oJNZYwY5dPgAX2LTvAAvCgl-1PAiet-EgsLlncdOAqRVOPh\",c=\"chmln\",i=d.createElement(\"script\");if(w[c]||(w[c]={}),!w[c].root){w[c].accountToken=t,w[c].location=w.location.href.toString(),w[c].now=new Date,w[c].fastUrl='https://fast.chameleon.io/';var m=\"identify alias track clear set show on off custom help _data\".split(\" \");for(var s=0;s<m.length;s++){!function(){var t=w[c][m[s]+\"_a\"]=[];w[c][m[s]]=function(){t.push(arguments);};}();}i.src=w[c].fastUrl+\"messo/\"+t+\"/messo.min.js\",i.async=!0,d.head.appendChild(i);}}(document,window);
+                    chmln.identify(1, {email: kevin.quaedvlieg@prepr.io}
+                    
+                    `
                 }
             }
             />
