@@ -5,6 +5,7 @@ import {CookiesProvider} from 'react-cookie';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';
 const inter = Open_Sans({ subsets: ['latin'] })
+const chmln = require('@chamaeleonidae/chmln');
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
@@ -37,3 +38,7 @@ export default function App({ Component, pageProps }) {
         </main>
     )
 }
+
+App.getServerSideProps = () => [
+    chmln.init('SliKIsOn78Fnm9uLXgcFyI5oJNZYwY5dPgAX2LTvAAvCgl-1PAiet-EgsLlncdOAqRVOPh', { fastUrl: 'https://fast.chameleon.io/' })
+]
