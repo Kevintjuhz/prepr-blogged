@@ -22,9 +22,10 @@ export default function Document() {
             }
             />
 
-            <Script>
-                window.chmln.identify(1, {email: kevin.quaedvlieg@prepr.io}
-            </Script>
+            <Script id="chameleon_code" strategy="afterInteractive" dangerouslySetInnerHTML={{
+                __html: `chmln.identify("rgwerw-114e32ebr-etbetb", {email: "kevin.quaedvlieg@prepr.io"}`
+            }
+            } />
         </Head>
       <body className="bg-gray-50">
         <Main />
