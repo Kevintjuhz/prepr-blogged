@@ -22,10 +22,6 @@ export default function Document() {
             }
             />
 
-            <Script id="chameleon_code" strategy="afterInteractive" dangerouslySetInnerHTML={{
-                __html: `chmln.identify("rgwerw-114e32ebr-etbetb", {email: "kevin.quaedvlieg@prepr.io", name: "Kevin Quaedvlieg"}`
-            }
-            } />
         </Head>
       <body className="bg-gray-50">
         <Main />

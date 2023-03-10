@@ -8,6 +8,8 @@ const inter = Open_Sans({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
+    document.chmln.identify("rgwerw-114e32ebr-etbetb", {email: "kevin.quaedvlieg@prepr.io", name: "Kevin Quaedvlieg"}
+    
 
     useEffect(() => {
         const handleRouteChange = (url) => {
