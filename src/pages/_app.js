@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
     const router = useRouter();
 
     useEffect(() => {
-        chmln.identify("rgwerw-114e32ebr-etbetb", {email: "kevin.quaedvlieg@prepr.io", name: "Kevin Quaedvlieg"})
+        chmln.identify("rgwerw-114e32ebr-etbetegeg", {email: "kevin.quaedvlieg@prepr.dev", name: "Kevin Quaedvlieg"})
     });
 
 
