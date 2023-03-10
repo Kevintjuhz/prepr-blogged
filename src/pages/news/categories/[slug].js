@@ -1,13 +1,16 @@
-import AuthorHeader from '@/components/author/author-header';
 import ArticleCard from '@/components/article-card';
 import ArticleSidebar from '@/components/article/article-sidebar';
 import client from '@/lib/apollo-client';
-import {getAuthor} from '@/queries/author';
-import {getArticlesByCategory} from '@/queries/category';
+import {getCategory} from '@/queries/category';
+import {getArticlesByCategory} from "@/queries/articles"
+import Head from "next/head";
 
-function CategoryDetailPage({category, articles, popular_articles}) {
+function CategoryDetailPage({category, articles}) {
     return (
         <>
+            <Head>
+                <meta property="prepr:id" content={category._id}/>
+            </Head>
             <div className="grid grid-cols-9 gap-10 py-24 px-12 container mx-auto">
                 {/* Main content */}
                 <div className={`col-span-6 flex gap-4 flex-col post-content`}>
@@ -19,7 +22,7 @@ function CategoryDetailPage({category, articles, popular_articles}) {
                 </div>
 
                 {/* Sidebar */}
-                <ArticleSidebar className="col-span-3" popularArticles={popular_articles}/>
+                <ArticleSidebar className="col-span-3" />
             </div>
         </>
     )
@@ -27,10 +30,17 @@ function CategoryDetailPage({category, articles, popular_articles}) {
 
 export default CategoryDetailPage;
 
-export async function getServerSideProps({query}) {
+export async function getServerSideProps({query, req}) {
     const {slug} = query
 
     const {data} = await client.query({
+        query: getCategory,
+        variables: {
+            slug: slug
+        }
+    })
+
+    const Articles = await client.query({
         query: getArticlesByCategory,
         variables: {
             where: {
@@ -38,11 +48,14 @@ export async function getServerSideProps({query}) {
                     _slug_any: slug
                 }
             },
-            limit: 3,
-            slug: slug
+        },
+        context: {
+            headers: {
+            }
         }
     })
+
     return {
-        props: { articles: data.Articles.items, category: data.Category, popular_articles: data.Popular_Articles.items }
+        props: { articles: Articles.data.Articles.items, category: data.Category}
     }
 }

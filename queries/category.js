@@ -1,8 +1,9 @@
 import {gql} from '@apollo/client';
 
-export const getArticlesByCategory = gql`
-query Articles($slug: String) {
+export const getCategory = gql`
+query Category($slug: String) {
     Category(slug: $slug) {
+        _id
         image {
           url
           name

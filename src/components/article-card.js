@@ -17,11 +17,6 @@ function ArticleCard({article}) {
                 className="overflow-hidden col-span-5 bg-cover bg-center rounded-xl w-full h-full self-start"
                 style={{backgroundImage: `url("${article.featured_image[0].url}")`}}
             >
-                <Image
-                    src={article.featured_image[0].url}
-                    width={1000}
-                    height={1000}
-                />
             </div>
             <div className="col-span-7 border rounded-xl border-gray-200 px-10 py-10 group-hover:shadow-xl">
                 <p className="text-red-700 text-sm mb-4">{article.category[0].name}</p>

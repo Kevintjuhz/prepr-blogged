@@ -5,12 +5,9 @@ import ArticleSidebar from '@/components/article/article-sidebar';
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa';
 import parse from "html-react-parser"
 import Head from 'next/head';
-import {useContext} from 'react';
-import CookiesContext from 'react-cookie/lib/CookiesContext';
-import {parseCookies} from '@/lib/index';
+import {getCookie} from "cookies-next";
 
 function ArticleDetailPage({article, popular_articles}) {
-    const cookieContext = useContext(CookiesContext)
 
     const postContent = article.content.map((content) => {
         if (content.__typename === "Text") {
@@ -45,17 +42,16 @@ function ArticleDetailPage({article, popular_articles}) {
 
 export default ArticleDetailPage;
 
-export async function getServerSideProps({req, query}) {
+export async function getServerSideProps({req, res, query}) {
     const {slug} = query
-
-    let cookieData = parseCookies(req);
+    const customerCookie = getCookie('__prepr_uid', { req, res});
 
     const {data} = await client.query({
         query: getArticle,
         variables: { slug },
         context: {
             headers: {
-                "Prepr-Customer-ID": cookieData.__prepr_uid
+                "Prepr-Customer-Id": customerCookie
             }
         }
     })
@@ -65,6 +61,10 @@ export async function getServerSideProps({req, query}) {
         variables: {
             similarId: data.Article._id,
             limit: 3
+        },
+        context: {
+            headers: {
+            }
         }
     })
 

@@ -18,6 +18,11 @@ query Articles {
             }
             category {
                 name
+                _slug
+                image {
+                    url(width: 1920)
+                    name
+                }
             }
             _created_on
             _slug
@@ -113,6 +118,61 @@ export const getBookmarkedArticles = gql`
             _created_on
             _slug
             featured_post
+        }
+    }
+}`
+
+export const getArticlesByCategory = gql`query Articles($where: ArticleWhereInput) {
+    Articles(where: $where) {
+        items {
+            _slug
+            _id
+            title
+            featured_image {
+                url
+                name
+            }
+            _created_on
+            content {
+            ... on Text {
+                    _id
+                    _type
+                    html
+                    body
+                    text
+                    format
+                }
+            ... on Assets {
+                    _type
+                    items {
+                        url(width: 1920)
+                        name
+                    }
+                }
+            ... on BlockQuote {
+                    _id
+                    quote
+                    person
+                }
+            }
+            author {
+                _slug
+                bio
+                job
+                name
+                image {
+                    url(width: 1920)
+                    name
+                }
+            }
+            category {
+                name
+                image {
+                    url(width: 1920)
+                    name
+                }
+                _slug
+            }
         }
     }
 }`

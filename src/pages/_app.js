@@ -10,12 +10,9 @@ export default function App({ Component, pageProps }) {
     const router = useRouter();
 
     useEffect(() => {
-        const handleRouteChange = (url) => {
-            const articleRoute = url.toString().includes("/news/articles/")
-
-            if (articleRoute) {
-                prepr('event', 'View');
-            }
+        const handleRouteChange = async () => {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            prepr('event', 'View');
         }
 
         router.events.on('routeChangeComplete', handleRouteChange)

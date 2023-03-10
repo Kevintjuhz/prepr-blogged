@@ -1,5 +1,4 @@
 import {getBookmarkedArticles} from '@/queries/articles';
-import {parseCookies} from '@/lib/index';
 import client from '@/lib/apollo-client';
 import ArticleCard from '@/components/article-card';
 import ArticleSidebar from '@/components/article/article-sidebar';
@@ -28,13 +27,11 @@ function BookmarkedPage({articles}) {
 export default BookmarkedPage
 
 export async function getServerSideProps({req}) {
-    let cookieData = parseCookies(req);
 
     const {data} = await client.query({
         query: getBookmarkedArticles,
         context: {
             headers: {
-                "Prepr-Customer-ID": cookieData.__prepr_uid
             }
         }
     })

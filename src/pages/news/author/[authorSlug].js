@@ -3,12 +3,24 @@ import {getAuthor} from '@/queries/author';
 import AuthorHeader from '@/components/author/author-header';
 import ArticleSidebar from '@/components/article/article-sidebar';
 import ArticleCard from '@/components/article-card';
-import {getArticles, getSimilarArticles} from '@/queries/articles';
-function AuthorDetailPage({author, articles, popular_articles}) {
-    const categories = articles.map((article) => article.category[0])
+import {getArticles} from '@/queries/articles';
+import Head from "next/head";
+function AuthorDetailPage({author, articles }) {
+    let categories = articles.map((article) => {
+            return article.category[0]
+    })
+
+    categories = categories.filter((value, index, self) =>
+            index === self.findIndex((t) => (
+                t.name === value.name
+            ))
+    )
 
     return (
         <>
+            <Head>
+                <meta property="prepr:id" content={author._id}/>
+            </Head>
             <AuthorHeader author={author}/>
 
             <div className="grid grid-cols-9 gap-10 py-24 px-12 container mx-auto">
@@ -17,7 +29,7 @@ function AuthorDetailPage({author, articles, popular_articles}) {
                     <h2 className="text-4xl mb-6">Articles By This Author</h2>
 
                     {articles.map((article) => (
-                        <ArticleCard article={article} key={article.slug} />
+                        <ArticleCard article={article} key={article._slug} />
                     ))}
                 </div>
 
@@ -30,7 +42,7 @@ function AuthorDetailPage({author, articles, popular_articles}) {
 
 export default AuthorDetailPage;
 
-export async function getServerSideProps({query}) {
+export async function getServerSideProps({query, req}) {
     const {authorSlug} = query
 
     const {data} = await client.query({
@@ -43,11 +55,19 @@ export async function getServerSideProps({query}) {
             },
             limit: 3,
             slug: authorSlug
+        },
+        context: {
+            headers: {
+            }
         }
     })
 
     const articles = await client.query({
         query: getArticles,
+        context: {
+            headers: {
+            }
+        }
     })
 
     return {
