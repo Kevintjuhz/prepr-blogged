@@ -4,7 +4,9 @@ import ArticleCard from '@/components/article-card';
 import Link from 'next/link';
 import parse from 'html-react-parser';
 import Head from "next/head";
-import {getCookie} from "cookies-next";
+import {getCookie, hasCookie, setCookie} from 'cookies-next';
+import { v4 } from "uuid";
+
 function HomePage({page}) {
     const pageContent = page.content.map((content) => {
         if (content.__typename === "Header") {
@@ -69,7 +71,12 @@ function HomePage({page}) {
 export default HomePage
 
 export async function getServerSideProps({req, res}) {
-    const customerCookie = getCookie('__prepr_uid', { req, res});
+
+    if (!hasCookie('__prepr_uid', {req, res})) {
+        const uuid = v4();
+        await setCookie('__prepr_uid', uuid, {req,res})
+    }
+    const customerCookie = await getCookie('__prepr_uid', { req, res});
 
     // Data
     const {data} = await client.query({

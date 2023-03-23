@@ -12,7 +12,7 @@ function ArticleCard({article}) {
     });
 
     return (
-        <Link className="grid grid-cols-12 mb-4 gap-8 group" href={`/news/articles/${article._slug}`} data-prepr-abtest={article._id}>
+        <Link className="grid grid-cols-12 mb-4 gap-8 group" href={`/news/articles/${article._slug}`}>
             <div
                 className="overflow-hidden col-span-5 bg-cover bg-center rounded-xl w-full h-full self-start"
                 style={{backgroundImage: `url("${article.featured_image[0].url}")`}}
