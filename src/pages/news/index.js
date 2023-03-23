@@ -2,7 +2,8 @@ import FeaturedPostsHeader from '@/components/featured-posts-header';
 import client from '@/lib/apollo-client';
 import {getArticles} from '@/queries/articles';
 import ArticleCard from '@/components/article-card';
-import {getCookie} from "cookies-next";
+import {getCookie, setCookie} from 'cookies-next';
+import { randomUUID } from 'crypto'
 function NewsPage({articles}) {
     return (
         <>
@@ -11,7 +12,6 @@ function NewsPage({articles}) {
                 <h2 className="font-bold text-3xl mb-4">Articles</h2>
                 {articles.map((article) => (
                     <>
-                        <a href={`/news/articles/${article._slug}`} data-prepr-abtest={article._id}>Test</a>
                         <ArticleCard key={article._slug} article={article} />
                     </>
                 ))}
@@ -24,7 +24,11 @@ export default NewsPage
 
 export async function getServerSideProps({req, res}) {
 
-    const customerCookie = getCookie('__prepr_uid', { req, res});
+    let customerCookie = getCookie('__prepr_uid', { req, res});
+
+    if (!customerCookie) {
+        customerCookie = await setCookie('__prepr_uid', randomUUID())
+    }
 
     const {data} = await client.query({
         query: getArticles,
