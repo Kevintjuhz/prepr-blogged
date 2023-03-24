@@ -1,7 +1,7 @@
 import ArticleCard from '@/components/article-card';
 import ArticleSidebar from '@/components/article/article-sidebar';
 import client from '@/lib/apollo-client';
-import {getCategory} from '@/queries/category';
+import {getCategory, getCategorySlugs} from '@/queries/category';
 import {getArticlesByCategory} from "@/queries/articles"
 import Head from "next/head";
 
@@ -30,8 +30,8 @@ function CategoryDetailPage({category, articles}) {
 
 export default CategoryDetailPage;
 
-export async function getServerSideProps({query, req}) {
-    const {slug} = query
+export async function getStaticProps({params}) {
+    const {slug} = params
 
     const {data} = await client.query({
         query: getCategory,
@@ -48,14 +48,27 @@ export async function getServerSideProps({query, req}) {
                     _slug_any: slug
                 }
             },
-        },
-        context: {
-            headers: {
-            }
         }
     })
 
     return {
         props: { articles: Articles.data.Articles.items, category: data.Category}
+    }
+}
+
+export async function getStaticPaths() {
+    const {data} = await client.query({
+        query: getCategorySlugs
+    })
+
+    const paths = data.Categories.items.map((category) => {
+        return {
+            params: { slug: category._slug }
+        }
+    })
+
+    return{
+        paths,
+        fallback: false
     }
 }

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import parse from 'html-react-parser';
 import Head from "next/head";
 function HomePage({page}) {
-    const pageContent = page.content.map((content) => {
+    const pageContent = page._ab_testing_variation.content.map((content) => {
         if (content.__typename === "Header") {
             return (
                 <>
@@ -73,10 +73,9 @@ export async function getStaticProps() {
         query: getHomePageAB
     })
 
-
     return {
         props: {
-            page: data.Page,
+            page: data.Page._ab_testing_variation,
         },
     }
 }

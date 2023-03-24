@@ -1,11 +1,10 @@
 import client from '@/lib/apollo-client';
-import {getArticle, getSimilarArticles} from '@/queries/articles';
+import {getArticle, getArticleSlugs, getSimilarArticles} from '@/queries/articles';
 import ArticleHeader from '@/components/article/article-header';
 import ArticleSidebar from '@/components/article/article-sidebar';
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa';
 import parse from "html-react-parser"
 import Head from 'next/head';
-import {getCookie} from "cookies-next";
 
 function ArticleDetailPage({article, popular_articles}) {
 
@@ -42,18 +41,11 @@ function ArticleDetailPage({article, popular_articles}) {
 
 export default ArticleDetailPage;
 
-export async function getServerSideProps({req, res, query}) {
-    const {slug} = query
-    const customerCookie = getCookie('__prepr_uid', { req, res});
-
+export async function getStaticProps({params}) {
+    const {slug} = params
     const {data} = await client.query({
         query: getArticle,
         variables: { slug },
-        context: {
-            headers: {
-                "Prepr-Customer-Id": customerCookie
-            }
-        }
     })
 
     const similar = await client.query({
@@ -61,14 +53,27 @@ export async function getServerSideProps({req, res, query}) {
         variables: {
             similarId: data.Article._id,
             limit: 3
-        },
-        context: {
-            headers: {
-            }
         }
     })
 
     return {
         props: { article: data.Article, popular_articles: similar.data.Similar_Articles.items }
+    }
+}
+
+export async function getStaticPaths() {
+    const {data} = await client.query({
+        query: getArticleSlugs
+    })
+
+    const paths = data.Articles.items.map((article) => {
+        return {
+            params: { slug: article._slug }
+        }
+    })
+
+    return{
+        paths,
+        fallback: false
     }
 }

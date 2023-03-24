@@ -31,6 +31,15 @@ query Articles {
     }
 }`
 
+export const getArticleSlugs = gql`
+query Articles {
+    Articles {
+        items {
+            _slug
+        }
+    }
+}`
+
 export const getArticle = gql`
 query Article($slug: String!) {
     Article(slug: $slug) {

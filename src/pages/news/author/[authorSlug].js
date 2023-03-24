@@ -1,9 +1,9 @@
 import client from '@/lib/apollo-client';
-import {getAuthor} from '@/queries/author';
+import {getAuthor, getAuthorSlugs} from '@/queries/author';
 import AuthorHeader from '@/components/author/author-header';
 import ArticleSidebar from '@/components/article/article-sidebar';
 import ArticleCard from '@/components/article-card';
-import {getArticles} from '@/queries/articles';
+import {getArticles, getArticleSlugs} from '@/queries/articles';
 import Head from "next/head";
 function AuthorDetailPage({author, articles }) {
     let categories = articles.map((article) => {
@@ -42,8 +42,8 @@ function AuthorDetailPage({author, articles }) {
 
 export default AuthorDetailPage;
 
-export async function getServerSideProps({query, req}) {
-    const {authorSlug} = query
+export async function getStaticProps({params}) {
+    const {authorSlug} = params
 
     const {data} = await client.query({
         query: getAuthor,
@@ -56,21 +56,30 @@ export async function getServerSideProps({query, req}) {
             limit: 3,
             slug: authorSlug
         },
-        context: {
-            headers: {
-            }
-        }
     })
 
     const articles = await client.query({
         query: getArticles,
-        context: {
-            headers: {
-            }
-        }
     })
 
     return {
         props: { articles: articles.data.Articles.items, author: data.Author }
+    }
+}
+
+export async function getStaticPaths() {
+    const {data} = await client.query({
+        query: getAuthorSlugs
+    })
+
+    const paths = data.Authors.items.map((author) => {
+        return {
+            params: { authorSlug: author._slug }
+        }
+    })
+
+    return{
+        paths,
+        fallback: false
     }
 }

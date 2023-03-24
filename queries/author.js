@@ -13,3 +13,11 @@ export const getAuthor = gql`query ($slug: String) {
         _slug
     }
 }`
+
+export const getAuthorSlugs = gql`query {
+    Authors {
+        items {
+            _slug
+        }
+    }
+}`

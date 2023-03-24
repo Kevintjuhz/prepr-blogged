@@ -2,8 +2,6 @@ import FeaturedPostsHeader from '@/components/featured-posts-header';
 import client from '@/lib/apollo-client';
 import {getArticles} from '@/queries/articles';
 import ArticleCard from '@/components/article-card';
-import {getCookie, setCookie} from 'cookies-next';
-import { randomUUID } from 'crypto'
 function NewsPage({articles}) {
     return (
         <>
@@ -22,21 +20,10 @@ function NewsPage({articles}) {
 
 export default NewsPage
 
-export async function getServerSideProps({req, res}) {
-
-    let customerCookie = getCookie('__prepr_uid', { req, res});
-
-    if (!customerCookie) {
-        customerCookie = await setCookie('__prepr_uid', randomUUID())
-    }
+export async function getStaticProps() {
 
     const {data} = await client.query({
         query: getArticles,
-        context: {
-            headers: {
-                "Prepr-Customer-Id": customerCookie
-            }
-        }
     })
     return {
         props: { articles: data.Articles.items }

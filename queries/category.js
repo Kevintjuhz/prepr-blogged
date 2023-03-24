@@ -11,3 +11,12 @@ query Category($slug: String) {
         name
       }
 }`
+
+export const getCategorySlugs = gql`
+query Categories {
+    Categories {
+        items {
+            _slug
+        }
+    }   
+}`
