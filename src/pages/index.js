@@ -83,7 +83,6 @@ export async function getServerSideProps({req, res}) {
         query: getHomePage,
         fetchPolicy: "no-cache",
         context: {
-            fetchPolicy: "no-cache",
             headers: {
                 "Prepr-Customer-Id": customerCookie
             }
