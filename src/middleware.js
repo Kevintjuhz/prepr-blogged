@@ -19,8 +19,6 @@ export async function middleware(request) {
 
         const bucket = response.headers.get('x-prepr-customer-bucket');
 
-        console.log(bucket)
-
         if (bucket === "B") {
             const url = request.nextUrl.clone()
             url.pathname = '/homeb'

@@ -4,8 +4,8 @@ import ArticleCard from '@/components/article-card';
 import Link from 'next/link';
 import parse from 'html-react-parser';
 import Head from "next/head";
-function HomePage({page}) {
-    const pageContent = page._ab_testing_variation.content.map((content) => {
+function HomePage2({page}) {
+    const pageContent = page.content.map((content) => {
         if (content.__typename === "Header") {
             return (
                 <>
@@ -65,12 +65,13 @@ function HomePage({page}) {
     )
 }
 
-export default HomePage
+export default HomePage2
 
 export async function getStaticProps() {
     // Data
     const {data} = await client.query({
-        query: getHomePageAB
+        query: getHomePageAB,
+        fetchPolicy: "no-cache"
     })
 
     return {

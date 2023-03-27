@@ -59,7 +59,7 @@ export const getHomePageAB = gql`
         _id
         name
         _slug
-        content {
+        content { 
             __typename
         ... on Header {
                 _id
@@ -104,7 +104,7 @@ export const getHomePageAB = gql`
                 tagline
             }
         }
-\t\t\t\t_ab_testing_variation {
+_ab_testing_variation {
 _id
         name
         _slug

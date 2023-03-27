@@ -23,7 +23,7 @@ export default NewsPage
 export async function getStaticProps() {
 
     const {data} = await client.query({
-        query: getArticles,
+        query: getArticles
     })
     return {
         props: { articles: data.Articles.items }

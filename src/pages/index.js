@@ -5,6 +5,8 @@ import Link from 'next/link';
 import parse from 'html-react-parser';
 import Head from "next/head";
 function HomePage({page}) {
+    console.log(page)
+
     const pageContent = page.content.map((content) => {
         if (content.__typename === "Header") {
             return (
@@ -68,11 +70,14 @@ function HomePage({page}) {
 export default HomePage
 
 export async function getStaticProps() {
+    await client.resetStore()
     // Data
     const {data} = await client.query({
-        query: getHomePageAB
+        query: getHomePageAB,
+        // fetchPolicy: "no-cache"
     })
 
+    console.log(data.Page)
 
     return {
         props: {
