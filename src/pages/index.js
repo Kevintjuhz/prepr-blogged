@@ -74,7 +74,7 @@ export async function getStaticProps() {
     // Data
     const {data} = await client.query({
         query: getHomePageAB,
-        // fetchPolicy: "no-cache"
+        fetchPolicy: "no-cache"
     })
 
     console.log(data.Page)
