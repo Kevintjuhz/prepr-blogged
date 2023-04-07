@@ -7,7 +7,7 @@
       "body" : "Title that will be displayed in Prepr",
       "description" : "Descrtiption text displayed with the title",
       "image_url" : "https://picsum.photos/200/30",
-      "external_url" : null,
+      "external_url" : null
     }
   ],
   "total" : 1
