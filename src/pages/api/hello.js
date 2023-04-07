@@ -3,5 +3,5 @@ const json = require('../../../response.json')
 
 // Change
 export default function handler(req, res) {
-  res.status(200).json(json)
+  res.status(200).send(json)
 }
